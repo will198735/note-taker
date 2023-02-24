@@ -13,7 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use(express.static('public'));
-  
+
+
+
 
 // GET Route for homepage
 app.get('/', (req, res) =>
@@ -31,9 +33,23 @@ app.get('*', (req, res) =>
 
 
 
+
+
+
+app.get('/', (req, res) => {
+  console.info(`${req.method} request received for note`);
+
+
+  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+});
+
+
+
+
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
+
 
 
 

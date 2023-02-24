@@ -1,41 +1,48 @@
 
-const notes = require('express').Router();
-const { readFromFile, readAndAppend } = require('../helpers/fsUtils');
+// const notes = require('express').Router();
+// const { readFromFile, readAndAppend } = require('../helpers/fsUtils');
+ const fs = require('fs');
 
 
-app.get('/api/notes', (req, res) => {
+module.exports = function (notes) { 
+
+  //get request
+notes.get('/api/notes', (req, res) => {
     console.info(`${req.method} request received for note`);
+    let data = fs.readFileSync("/notes/data/db.json", "utf-8");
+
   
-    readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+   res.json(JSON.parse (data));
   });
 
-  
-  app.post('/api/notes', (req, res) => {
-    // Let the client know that their POST request was received
-    res.json(`${req.method} request received`);
-  
-    
-    
-  
-    // Log our request to the terminal
-    console.info(`${req.method} request received`);
+  notes.post('/api/notes', (req, res) => {
+ const newNote = {
+  ...req.body,
+  id: uniqid(),
+};
+console.log("post request for new note");
 
-    const   {title, text} = req.body; 
+let data = fs.readFileSync("/notes/data/db.json", "utf-8");
 
+const dataJSON = JSON.parse(data)
+data.JSON.push(newNote);
+    fs.writeFile(
+      "notes/data/db.jso",
+      JSON.stringify(dataJSON),
+      (err, text) => {
+        if (err) {
 
-    if (title && text) {
-      const newNote = {
-        title,
-        text,
-      };
-      readAndAppend(newNote, './db/db.json');
-      res.json(`Note added successfully 🚀`);
-    } else {
-      res.error('Error in adding note');
-    }
-   
+          console.error(err)
+          return;
+        }
+        cosole.log("hello ", text);
 
-
-    
+      }
+    );
+    console.log("success added, new note ");
+    res.JSON(data);
   });
-  module.exports = notes;
+};
+
+    
+ 
