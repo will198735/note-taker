@@ -6,7 +6,9 @@ This is an application called Note Taker that can be used to write and save note
 
 ## Istallation
 
+https://spest-deploy.herokuapp.com/
 
+https://git.heroku.com/spest-deploy.git
 
 
 ## Usage
